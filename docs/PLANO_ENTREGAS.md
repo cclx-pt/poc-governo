@@ -1,29 +1,35 @@
-# Plano incremental e gates
+# Plano técnico — da POC à utilização real
 
-## Entrega 1 — POC demonstrativa
-Navegação, visão P7, cultura, estrutura, processo ilustrativo, aviso de protótipo e documentação. Sem dados reais, login, persistência ou deploy.
+## Gate A — Fundação técnica da POC
+- [ ] package-lock.json versionado
+- [ ] npm ci, typecheck, build e testes com Node 22
+- [ ] CI verde na PR #2
+- [ ] Compatibilização dos controlos da PR #1
+- [ ] Revisão de segurança e acessibilidade
+- [ ] Merge controlado na main, **sem deploy automático**
 
-**Gate:** instalação reproduzível, typecheck, build, testes, CI e revisão da PR.
+**Condição:** não efetuar merge se algum ponto obrigatório falhar.
 
-## Entrega 2 — Domínio e contratos
-Tipos e validações de organização, nomeações, documentos, processos e variantes; exemplos sintéticos; testes de regras de integridade. Sem decisões institucionais presumidas.
+## Gate B — Aplicação interna utilizável
+1. Modelo de dados versionado: unidades, pessoas, nomeações, cultura, processos, variantes, decisões e auditoria.
+2. Autenticação com ambiente de teste separado.
+3. Autorização no backend e regras Firestore: ação + função + âmbito + classificação.
+4. Submissão e decisão do CL para Cultura Geral, propostas locais, exceções e conflitos.
+5. Edição e persistência de documentos e processos com histórico de versões.
+6. Separação entre aprovação institucional e publicação.
+7. Testes de isolamento entre comunidades e negação de privilégios indevidos.
+8. Backups, recuperação, logging, retenção e monitorização.
 
-**Gate:** contratos revistos, cobertura de cenários positivos e negativos.
+**Condição:** decisões DEC-01B/02B/03/04B/05/06 aprovadas antes de implementar permissões finais e dados reais.
 
-## Entrega 3 — Editor de processos
-Edição, validação de grafos, rascunhos locais, diffs e versões; sem publicação automática.
+## Gate C — Piloto controlado
+- UAT com perfis institucionais reais, sem migração irreversível.
+- WCAG 2.2 AA como objetivo; testes com teclado e tecnologias de apoio.
+- Ensaios de restauro, revogação e incidentes.
+- Aprovação formal para disponibilização e tratamento de dados reais.
 
-**Gate:** testes de versões, ciclo de vida e conformidade com referência geral.
+## Fora do âmbito
+Gestão de tarefas, execução de processos, produtividade, projetos e contabilização financeira do Portal CAF.
 
-## Ponto de decisão institucional
-Validar competências, cultura geral/local, classificação e política de publicação. Não avançar para permissões definitivas nem dados reais antes destas decisões.
-
-## Entrega 4 — Segurança e publicação
-Autenticação, autorização, isolamento de âmbito, aprovação, projeções públicas e auditoria.
-
-**Gate:** testes negativos, revisão de segurança e aprovação institucional.
-
-## Entrega 5 — Piloto
-Migração de dados autorizados, formação, acessibilidade, backup/restauro e UAT.
-
-**Gate:** autorização expressa de produção.
+## Estado real
+Código de POC em PR Draft. O lockfile não está confirmado; build e CI não estão validados. O domínio de publicação inclui uma allowlist ilustrativa, **não** constitui backend seguro ou autorização para dados reais.
