@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { isCouncilApprovalRecorded, isLocalProposalApproved, LEADERSHIP_COUNCIL } from '../src/domain/governance.mjs';
+import { isCouncilApprovalRecorded, isLocalProposalApproved, getInstitutionalStatus, LEADERSHIP_COUNCIL } from '../src/domain/governance.mjs';
 test('Cultura Geral, variantes, exceções e conflitos exigem decisão do CL', () => {
   for (const subject of ['general_culture','local_variant','exception','conflict']) {
     const d={subject,decidingBody:LEADERSHIP_COUNCIL,outcome:'approved',decisionId:'CL-2026-001'};
@@ -16,4 +16,15 @@ test('Uma proposta local não é aprovação e exige decisão vinculada ao objet
   assert.equal(isLocalProposalApproved(proposal,d),true);
   assert.equal(isLocalProposalApproved(proposal,{...d,objectId:'local-2'}),false);
   assert.equal(isLocalProposalApproved(proposal,null),false);
+});
+
+test('Aprovação pelo CL não implica publicação automática', () => {
+  const proposal={type:'local_variant',id:'variant-1',version:3};
+  const decision={subject:'local_variant',objectId:'variant-1',decidingBody:LEADERSHIP_COUNCIL,outcome:'approved',decisionId:'CL-2026-010'};
+  assert.equal(getInstitutionalStatus(proposal,null,null),'awaiting_council');
+  assert.equal(getInstitutionalStatus(proposal,decision,null),'approved_not_published');
+  assert.equal(getInstitutionalStatus(proposal,decision,{objectId:'variant-1',version:2,approved:true}),'approved_not_published');
+  assert.equal(getInstitutionalStatus(proposal,decision,{objectId:'variant-1',version:3,approved:true}),'published');
+  assert.equal(getInstitutionalStatus(proposal,{...decision,outcome:'rejected'},null),'rejected');
+  assert.equal(getInstitutionalStatus(proposal,{...decision,decidingBody:'conselho_pastoral'},null),'awaiting_council');
 });
