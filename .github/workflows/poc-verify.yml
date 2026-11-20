@@ -1,44 +1,36 @@
-name: POC verification and lockfile
+name: Generate lockfile (manual)
 on:
-  push:
-    branches: [feat/poc-react-fundacao]
   workflow_dispatch:
 permissions:
   contents: write
 jobs:
-  verify:
+  generate-lockfile:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: feat/poc-react-fundacao
           persist-credentials: true
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: npm
-          cache-dependency-path: package-lock.json
-        if: ${{ hashFiles('package-lock.json') != '' }}
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-        if: ${{ hashFiles('package-lock.json') == '' }}
-      - name: Generate lockfile when absent
-        run: |
-          if [ ! -f package-lock.json ]; then npm install --package-lock-only --ignore-scripts; fi
-      - name: Verify installation
-        run: npm ci
-      - name: Typecheck
+      - name: Generate npm lockfile
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+      - name: Verify clean installation
+        run: npm ci --no-audit --no-fund
+      - name: Validate TypeScript
         run: npm run typecheck
-      - name: Build
+      - name: Compile application
         run: npm run build
-      - name: Test
+      - name: Run tests
         run: npm test
-      - name: Commit verified lockfile
+      - name: Commit lockfile only after successful validation
         run: |
-          if ! git ls-files --error-unmatch package-lock.json >/dev/null 2>&1; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add package-lock.json
-            git commit -m "build: add verified npm lockfile [skip ci]"
-            git push
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          if ! git diff --cached --quiet; then
+            git commit -m "build: add validated npm lockfile"
+            git push origin HEAD:feat/poc-react-fundacao
           fi
