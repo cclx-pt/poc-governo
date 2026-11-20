@@ -1,0 +1,44 @@
+name: POC verification and lockfile
+on:
+  push:
+    branches: [feat/poc-react-fundacao]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: package-lock.json
+        if: ${{ hashFiles('package-lock.json') != '' }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+        if: ${{ hashFiles('package-lock.json') == '' }}
+      - name: Generate lockfile when absent
+        run: |
+          if [ ! -f package-lock.json ]; then npm install --package-lock-only --ignore-scripts; fi
+      - name: Verify installation
+        run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Build
+        run: npm run build
+      - name: Test
+        run: npm test
+      - name: Commit verified lockfile
+        run: |
+          if ! git ls-files --error-unmatch package-lock.json >/dev/null 2>&1; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add package-lock.json
+            git commit -m "build: add verified npm lockfile [skip ci]"
+            git push
+          fi
