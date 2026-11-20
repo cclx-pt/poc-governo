@@ -1,12 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 test('Firestore POC denies all access', () => {
   const rules = readFileSync('firestore.rules','utf8');
   assert.match(rules, /allow read, write: if false/);
 });
 test('No automatic deployment workflow', () => {
-  const { existsSync } = await import('node:fs');
   assert.equal(existsSync('.github/workflows/deploy.yml'), false);
 });
 test('P7 scope and exclusion are documented', () => {
