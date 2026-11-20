@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import ReactFlow, { Background, Controls, type Edge, type Node, type OnNodesChange, applyNodeChanges } from '@xyflow/react';
+import { ReactFlow, Background, Controls, type Edge, type Node, type OnNodesChange, applyNodeChanges } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 
 const initialNodes: Node[] = [
