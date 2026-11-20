@@ -1,5 +1,12 @@
 name: Generate lockfile (manual)
 on:
+  push:
+    branches: [feat/poc-react-fundacao]
+    paths:
+      - 'package.json'
+      - 'src/**'
+      - 'tests/**'
+      - '.github/workflows/poc-verify.yml'
   workflow_dispatch:
 permissions:
   contents: write
