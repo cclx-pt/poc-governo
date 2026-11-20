@@ -22,19 +22,19 @@ function Overview() {
 }
 function Structure() {
   return <Section eyebrow="ORGANIZAÇÃO" title="Uma estrutura compreensível." description="Órgãos, comunidades, pessoas e funções. A representação abaixo é ilustrativa; competências e relações de autoridade carecem de validação.">
-    <div className="feature-grid"><article><h3>Conselho de Liderança</h3><p>Órgão institucional · competências por validar</p></article><article><h3>Conselho Pastoral</h3><p>Órgão institucional · competências por validar</p></article><article><h3>CAF</h3><p>Conselho Administrativo e Financeiro · competências por validar</p></article></div>
+    <div className="feature-grid"><article><h3>Conselho de Liderança</h3><p>Aprova a Cultura Geral, as propostas locais e decide exceções e conflitos</p></article><article><h3>Conselho Pastoral</h3><p>Órgão institucional · competências por validar</p></article><article><h3>CAF</h3><p>Conselho Administrativo e Financeiro · competências por validar</p></article></div>
     <h2 className="subheading">Comunidades</h2><div className="tag-grid">{communities.map(c => <span className="tag" key={c}>{c}</span>)}</div>
   </Section>;
 }
 function Culture() {
   return <Section eyebrow="MODELO DE CULTURA" title="Definir o comum. Preservar a liberdade." description="A cultura local não é ausência de Governo: é autonomia com limites e responsabilidades reconhecidos.">
-    <div className="split"><article className="dark-card"><span>01 / REFERÊNCIA</span><h2>Cultura Definida</h2><p>Princípios e diretrizes gerais aprovados, aplicáveis no âmbito estabelecido.</p></article><article className="light-card"><span>02 / AUTONOMIA</span><h2>Cultura Livre</h2><p>Práticas e adaptações locais que não contradizem, substituem ou anulam a Cultura Geral.</p></article></div>
-    <p className="note">A classificação, aprovação e resolução de conflitos permanecem decisões institucionais pendentes.</p>
+    <div className="split"><article className="dark-card"><span>01 / REFERÊNCIA</span><h2>Cultura Definida</h2><p>Princípios e diretrizes gerais aprovados, aplicáveis no âmbito estabelecido.</p></article><article className="light-card"><span>02 / AUTONOMIA</span><h2>Cultura Livre</h2><p>Práticas e adaptações locais propostas pelas comunidades, sujeitas a aprovação do Conselho de Liderança.</p></article></div>
+    <p className="note">As comunidades propõem; o Conselho de Liderança aprova a Cultura Geral, as variantes locais e decide exceções e conflitos. A publicação continua sujeita a regras próprias, por definir.</p>
   </Section>;
 }
 function Processes() {
   return <Section eyebrow="PROCESSOS E DIRETRIZES" title="Documentar como fazemos." description="Exemplo conceptual de fluxo institucional. Não existe atribuição de tarefas, persistência nem motor de execução nesta POC.">
-    <FlowPreview /><p className="note">Fluxo demonstrativo e não aprovado. A edição, as variantes locais, o versionamento e a aprovação são funcionalidades futuras.</p>
+    <div className="governance-steps" aria-label="Percurso institucional de aprovação"><div><strong>1</strong><span>Proposta geral ou local</span></div><div><strong>2</strong><span>Apreciação pelo CL</span></div><div><strong>3</strong><span>Decisão do CL</span></div><div><strong>4</strong><span>Publicação separada</span></div></div><FlowPreview /><p className="note">Fluxo demonstrativo e não aprovado. A edição, a submissão ao CL, o versionamento e a publicação controlada são funcionalidades futuras.</p>
   </Section>;
 }
 function Access() {
