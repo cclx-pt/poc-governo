@@ -23,9 +23,11 @@ export async function requestLoginLink(emailInput, { findUser, allowAttempt, sto
     const token = randomBytes(32).toString('base64url');
     const challengeId = randomBytes(16).toString('hex');
     await storeChallenge({challengeId,tokenHash:hashToken(token),uid:user.uid,expiresAt:now()+LINK_TTL_MS});
-    const link = new URL('/auth/confirm', baseUrl);
-    link.searchParams.set('challenge', challengeId);
-    link.searchParams.set('token', token);
+    // HashRouter requires the route inside the fragment, not the pathname.
+    const link = new URL(baseUrl);
+    link.hash = '#/auth/confirm';
+    const params = new URLSearchParams({challenge: challengeId, token});
+    link.hash = '#/auth/confirm?' + params.toString();
     await sendLink(email, link.toString());
     await audit?.({event:'login_link_queued',uid:user.uid});
   } catch {
