@@ -1,22 +1,31 @@
 # Estado da POC React — 21/11/2026
 
-## Fundação técnica verificada
-- **GitHub Actions CI #12: success** — https://github.com/cclx-pt/poc-governo/actions/runs/44886090814
-- Node 22, lockfile presente, `npm ci`, `npm run typecheck`, `npm run build` e `npm test`: **todos aprovados na CI #12**.
-- `src/main.tsx` reposto, importação ReactFlow corrigida e `firestore.rules` deny-all restauradas.
-- Testes de domínio, publicação e âmbito executados com sucesso no workflow.
-- A correção encontra-se na **PR #4**, ainda sem merge; a PR #2 já foi integrada na main antes da correção.
+## Verificações confirmadas
+- CI #12 aprovada: https://github.com/cclx-pt/poc-governo/actions/runs/44886090814
+- CI #13 aprovada: https://github.com/cclx-pt/poc-governo/actions/runs/44886140519
+- CI #15 aprovada: https://github.com/cclx-pt/poc-governo/actions/runs/44886191092
+- Lockfile, instalação, TypeScript, compilação e testes passaram nas execuções indicadas.
+- PR #2 foi integrada na main antes da correção de `src/main.tsx`. A PR #4 reúne correções e evolução posterior, **ainda não integrada**.
+- Novas alterações posteriores à CI #15 requerem validação adicional.
 
-## Limites da POC
-- Interface demonstrativa com dados ilustrativos; sem dados pessoais reais, autenticação ou persistência.
-- Editor de fluxos local, sem guardar, versionar ou executar aprovações.
-- Regras Firestore **deny all**.
-- Não existe workflow de deploy.
-- A CI comprova compilação e testes automatizados existentes, **não** comprova segurança de produção nem aceitação funcional.
+## Decisões funcionais registadas
+- Firebase Authentication com **email link sem palavra-passe**, sem login Google OAuth.
+- Apenas utilizadores previamente registados e ativos recebem links; verificação no backend.
+- Master global, administradores locais limitados à comunidade e papéis CL separados.
+- `ricardoribeiro9@gmail.com` como referência para Master e membro do CL, sujeito a identidade verificada e provisionamento protegido.
+- Portal público sem login e área interna autenticada, com rotas distintas.
+- Classificação automática (Público, Interno, Restrito, Confidencial), alterações controladas e auditadas.
+- Publicação separada da classificação e aprovação; dados públicos expostos apenas através de projeções seguras.
+- CL aprova Cultura Geral e variantes locais e decide exceções/conflitos.
 
-## Próximos gates
-1. Rever alterações da PR #4, confirmar CI verde no head final e integrar a correção na main mediante aprovação.
-2. Rever controlos de qualidade e segurança da PR #1, sem presumir que já estão na main.
-3. Especificar modelo de dados e APIs de leitura/escrita com dados sintéticos.
-4. Validar decisões institucionais ainda pendentes antes de definir permissões finais.
-5. Implementar autenticação, autorização server-side, regras Firestore testadas e auditoria antes de qualquer dado real.
+## Limitações
+- POC com dados ilustrativos; sem login, envio de emails, persistência, administração real, publicação ou dados pessoais.
+- Regras Firestore deny-all e ausência de deploy automático.
+- Helpers de domínio **não** substituem segurança de backend ou regras Firestore.
+
+## Próximos passos
+1. Validar CI do head final da PR #4 e rever antes de integrar.
+2. Implementar ambiente Firebase de teste e backend de convite/login email link.
+3. Implementar papéis, isolamento por comunidade, classificação e auditoria.
+4. Construir portal público apenas com conteúdo explicitamente publicado.
+5. Validar decisões pendentes sobre publicação e desclassificação.
