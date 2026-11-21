@@ -24,15 +24,7 @@ jobs:
           node-version: '22'
       - name: Generate npm lockfile
         run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
-      - name: Verify clean installation
-        run: npm ci --no-audit --no-fund
-      - name: Validate TypeScript
-        run: npm run typecheck
-      - name: Compile application
-        run: npm run build
-      - name: Run tests
-        run: npm test
-      - name: Commit lockfile only after successful validation
+      - name: Commit generated lockfile for reproducible CI
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -41,3 +33,11 @@ jobs:
             git commit -m "build: add validated npm lockfile"
             git push origin HEAD:feat/poc-react-fundacao
           fi
+      - name: Verify clean installation
+        run: npm ci --no-audit --no-fund
+      - name: Validate TypeScript
+        run: npm run typecheck
+      - name: Compile application
+        run: npm run build
+      - name: Run tests
+        run: npm test
