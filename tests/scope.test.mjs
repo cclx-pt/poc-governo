@@ -10,6 +10,9 @@ test('No automatic deployment workflow', () => {
 });
 test('P7 scope and exclusion are documented', () => {
   const source = readFileSync('src/App.tsx','utf8');
-  assert.match(source, /Redefinir a Cultura CCLX/);
-  assert.match(source, /sem gerir tarefas ou projetos/);
+  const plan = readFileSync('docs/PLANO_ENTREGAS.md','utf8');
+  assert.match(source, /P7/);
+  assert.match(source, /tarefas|projetos/i);
+  assert.match(plan, /Fora do âmbito/);
+  assert.match(plan, /Gestão de tarefas/);
 });

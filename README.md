@@ -1,13 +1,27 @@
 # Governo CCLX — POC
 
-Proposta de plataforma institucional no âmbito da **P7 — Redefinir a Cultura CCLX**.
+Plataforma institucional proposta para **P7 — Redefinir a Cultura CCLX**.
 
-> Estado: preparação técnica e revisão. **Não é uma aplicação de produção.** Este repositório é público: não incluir dados pessoais, segredos, credenciais ou informação interna da CCLX.
+> **Estado:** POC técnica e funcional em evolução; **não é aplicação de produção**. O repositório é público: não colocar dados pessoais reais, segredos, tokens ou credenciais.
 
 ## Objetivo
-Definir e comunicar a Cultura Geral e a autonomia local, documentar estrutura institucional, funções, diretrizes e processos, com permissões e histórico.
+Documentar a estrutura institucional, Cultura Geral, autonomia local, diretrizes e processos com versões, decisões do Conselho de Liderança e classificação da informação.
 
-**Fora do âmbito:** gestão de tarefas, projetos, produtividade ou execução operacional.
+**Fora do âmbito:** gestão de tarefas, projetos, produtividade e contabilização financeira.
+
+## Decisões de arquitetura
+- **Firebase Authentication:** login sem palavra-passe por link de email; sem login Google OAuth.
+- **Acesso fechado:** envio de links apenas a utilizadores previamente registados e ativos, após validação pelo backend.
+- **Administração:** Master global e administradores locais limitados às respetivas comunidades; membro do CL é papel institucional distinto.
+- **Privacidade:** classificação automática Público/Interno/Restrito/Confidencial, com alteração controlada e auditada.
+- **Publicação:** portal público sem login, separado da área interna; só conteúdos explicitamente aprovados para publicação e transformados numa projeção segura.
+- **Governação:** CL aprova Cultura Geral e variantes locais, e decide exceções e conflitos.
+
+## Documentação
+- [Autenticação e utilizadores](docs/AUTENTICACAO_FIREBASE.md)
+- [Privacidade, classificação e publicação](docs/PRIVACIDADE_PUBLICACAO.md)
+- [Plano de entregas](docs/PLANO_ENTREGAS.md)
+- [Estado da POC](docs/ESTADO_POC.md)
 
 ## Desenvolvimento
-As alterações são propostas em branches e revistas antes de integração. Não existe publicação automática em produção. As decisões sobre competências institucionais, publicação e segurança dependem de aprovação.
+React, TypeScript e Vite. `npm ci`, `npm run typecheck`, `npm run build`, `npm test`. CI aprovada em execuções anteriores; confirmar novamente a última alteração antes de merge. Sem deploy automático, sem Firebase operacional e sem dados reais. Regras Firestore deny-all.
