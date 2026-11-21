@@ -29,3 +29,14 @@
 3. Implementar papéis, isolamento por comunidade, classificação e auditoria.
 4. Construir portal público apenas com conteúdo explicitamente publicado.
 5. Validar decisões pendentes sobre publicação e desclassificação.
+
+## Implementação Firebase em desenvolvimento (21/11/2026)
+- Criada pasta `functions/` com lógica de validação de contas, emissão de desafios de acesso e troca de desafios por Firebase Custom Tokens.
+- Links gerados exclusivamente no servidor, com token aleatório, hash persistido, expiração de 15 minutos e resgate atómico de utilização única.
+- Cloud Functions `requestAccessLink` e `exchangeAccessLink` adicionadas ao código, **não implantadas**.
+- Fila de envio `mail` preparada; **requer instalação/configuração da extensão de email** e verificação do domínio.
+- Limites iniciais por IP e email e resposta genérica para evitar enumeração de contas.
+- Testes unitários de elegibilidade, restrição por comunidade, anti-escalada e projeções públicas.
+- `firebase.json` inclui emuladores Auth, Functions e Firestore; regras Firestore continuam deny-all.
+- **Ainda falta** provisionamento protegido de contas, fluxo frontend, extensão de email, testes de integração com emuladores, configuração de Firebase e validação de segurança.
+- **Não ativar** os endpoints nem tratar dados reais antes de concluir os gates.
