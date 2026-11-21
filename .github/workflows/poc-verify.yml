@@ -1,0 +1,43 @@
+name: Generate lockfile (manual)
+on:
+  push:
+    branches: [feat/poc-react-fundacao]
+    paths:
+      - 'package.json'
+      - 'src/**'
+      - 'tests/**'
+      - '.github/workflows/poc-verify.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  generate-lockfile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/poc-react-fundacao
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Generate npm lockfile
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+      - name: Commit generated lockfile for reproducible CI
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          if ! git diff --cached --quiet; then
+            git commit -m "build: add validated npm lockfile"
+            git push origin HEAD:feat/poc-react-fundacao
+          fi
+      - name: Verify clean installation
+        run: npm ci --no-audit --no-fund
+      - name: Validate TypeScript
+        run: npm run typecheck
+      - name: Compile application
+        run: npm run build
+      - name: Run tests
+        run: npm test
