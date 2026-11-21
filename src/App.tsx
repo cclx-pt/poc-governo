@@ -2,6 +2,7 @@ import { NavLink, Route, Routes } from 'react-router-dom';
 import { ArrowUpRight, BookOpen, GitBranch, Landmark, Menu, ShieldCheck, Users } from 'lucide-react';
 import { useState } from 'react';
 import { FlowPreview } from './components/FlowPreview';
+import { MvpDemo } from './components/MvpDemo';
 
 const navigation = [
   { to: '/', label: 'Visão P7', icon: Landmark },
@@ -9,6 +10,8 @@ const navigation = [
   { to: '/cultura', label: 'Cultura', icon: BookOpen },
   { to: '/processos', label: 'Processos', icon: GitBranch },
   { to: '/acessos', label: 'Acesso e privacidade', icon: ShieldCheck },
+  { to: '/mvp', label: 'Experimentar MVP', icon: GitBranch },
+  { to: '/portal-publico', label: 'Portal público (demo)', icon: Landmark },
 ];
 const communities = ['Sede', 'Almada', 'Moita', 'Barreiro', 'Coruche', 'Caldas da Rainha', 'Porto', 'Açores'];
 function Section({ eyebrow, title, description, children }: { eyebrow: string; title: string; description: string; children: React.ReactNode }) {
@@ -45,5 +48,5 @@ function Access() {
 }
 export default function App() {
   const [open, setOpen] = useState(false);
-  return <div className="app-shell"><aside className={open ? 'sidebar open' : 'sidebar'}><div className="brand"><div className="mark">△</div><div><b>GOVERNO CCLX</b><small>PROPOSTA · P7</small></div></div><nav aria-label="Navegação principal">{navigation.map(({ to, label, icon: Icon }) => <NavLink key={to} to={to} end={to === '/'} onClick={() => setOpen(false)} className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}><Icon size={18} aria-hidden="true"/>{label}<ArrowUpRight size={13} className="nav-arrow" aria-hidden="true"/></NavLink>)}</nav><div className="sidebar-footer">POC · SEM DADOS REAIS</div></aside><main className="main"><header className="topbar"><button className="menu-button" onClick={() => setOpen(!open)} aria-label="Abrir ou fechar navegação" aria-expanded={open}><Menu size={22}/></button><span>GOVERNO CCLX <span className="separator">/</span> PROPOSTA DE DESENVOLVIMENTO</span><span className="status">DEMONSTRAÇÃO</span></header><div className="content"><Routes><Route path="/" element={<Overview/>}/><Route path="/estrutura" element={<Structure/>}/><Route path="/cultura" element={<Culture/>}/><Route path="/processos" element={<Processes/>}/><Route path="/acessos" element={<Access/>}/><Route path="*" element={<Overview/>}/></Routes></div></main></div>;
+  return <div className="app-shell"><aside className={open ? 'sidebar open' : 'sidebar'}><div className="brand"><div className="mark">△</div><div><b>GOVERNO CCLX</b><small>PROPOSTA · P7</small></div></div><nav aria-label="Navegação principal">{navigation.map(({ to, label, icon: Icon }) => <NavLink key={to} to={to} end={to === '/'} onClick={() => setOpen(false)} className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}><Icon size={18} aria-hidden="true"/>{label}<ArrowUpRight size={13} className="nav-arrow" aria-hidden="true"/></NavLink>)}</nav><div className="sidebar-footer">POC · SEM DADOS REAIS</div></aside><main className="main"><header className="topbar"><button className="menu-button" onClick={() => setOpen(!open)} aria-label="Abrir ou fechar navegação" aria-expanded={open}><Menu size={22}/></button><span>GOVERNO CCLX <span className="separator">/</span> PROPOSTA DE DESENVOLVIMENTO</span><span className="status">DEMONSTRAÇÃO</span></header><div className="content"><Routes><Route path="/" element={<Overview/>}/><Route path="/estrutura" element={<Structure/>}/><Route path="/cultura" element={<Culture/>}/><Route path="/processos" element={<Processes/>}/><Route path="/acessos" element={<Access/>}/><Route path="/mvp" element={<MvpDemo/>}/><Route path="/portal-publico" element={<MvpDemo view="public"/>}/><Route path="*" element={<Overview/>}/></Routes></div></main></div>;
 }
