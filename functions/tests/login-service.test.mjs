@@ -16,7 +16,7 @@ function harness(user=active, throttle=true) {
 test('apenas utilizadores ativos e previamente registados recebem link',async()=>{
   const ok=harness(); const answer=await requestLoginLink(active.email,ok.deps);
   assert.deepEqual(ok.calls,['limit','lookup','store','send']);
-  assert.ok(ok.getLink().startsWith('https://governo.example.org/auth/confirm?'));
+  assert.ok(ok.getLink().startsWith('https://governo.example.org/#/auth/confirm?'));
   for (const user of [null,{...active,status:'disabled'},{...active,status:'invited'},{...active,uid:null}]) {
     const blocked=harness(user);
     assert.deepEqual(await requestLoginLink(active.email,blocked.deps),answer);
