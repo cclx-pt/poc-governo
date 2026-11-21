@@ -24,3 +24,7 @@ jobs:
         run: npm run build
       - name: Tests
         run: npm test
+      - name: Firebase backend syntax
+        run: node --check functions/src/index.mjs && node --check functions/src/login-service.mjs
+      - name: Firebase backend policy tests
+        run: npm --prefix functions test
