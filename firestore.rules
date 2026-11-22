@@ -1,0 +1,63 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+    function userPath() {
+      return /databases/$(database)/documents/usersByUid/$(request.auth.uid);
+    }
+    function activeUser() {
+      return signedIn()
+        && exists(userPath())
+        && get(userPath()).data.status == 'active'
+        && get(userPath()).data.revoked == false
+        && get(userPath()).data.uid == request.auth.uid;
+    }
+    function master() {
+      return activeUser() && 'platform_master' in get(userPath()).data.roles;
+    }
+    function clMember() {
+      return activeUser() && 'cl_member' in get(userPath()).data.roles;
+    }
+    function belongsTo(communityId) {
+      return activeUser()
+        && communityId in get(userPath()).data.communityIds;
+    }
+    function canReadInstitutionalRecord() {
+      return activeUser()
+        && resource.data.classification in ['public', 'internal', 'restricted', 'confidential']
+        && (
+          master()
+          || (resource.data.classification in ['public', 'internal']
+              && (resource.data.communityId == 'geral'
+                  || belongsTo(resource.data.communityId)))
+          || (resource.data.classification == 'restricted'
+              && (clMember() || belongsTo(resource.data.communityId)))
+          || (resource.data.classification == 'confidential' && clMember())
+        );
+    }
+    match /usersByUid/{uid} {
+      // Authenticated users may read their own access record. Only a verified
+      // active Master may list users; all writes are provisioned out of band.
+      allow get: if signedIn() && (request.auth.uid == uid || master());
+      allow list: if master();
+      allow create, update, delete: if false;
+    }
+    match /governanceRecords/{recordId} {
+      allow get, list: if canReadInstitutionalRecord();
+      // Real writes require tested workflow-level authorization and audit.
+      allow create, update, delete: if false;
+    }
+    match /publishedRecords/{recordId} {
+      // Projection documents only: no confidential fields may be copied here.
+      allow get, list: if resource.data.state == 'published'
+        && resource.data.classification == 'public'
+        && resource.data.publicationApproved == true;
+      allow create, update, delete: if false;
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
