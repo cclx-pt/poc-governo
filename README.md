@@ -1,27 +1,32 @@
-# Governo CCLX — POC
+# Governo CCLX
 
-Plataforma institucional proposta para **P7 — Redefinir a Cultura CCLX**.
+**Especificação funcional da plataforma institucional da Comunidade Cristã CCLX**
 
-> **Estado:** POC técnica e funcional em evolução; **não é aplicação de produção**. O repositório é público: não colocar dados pessoais reais, segredos, tokens ou credenciais.
+> **Objetivo deste repositório:** documentar o que pretendemos desenvolver. A aplicação existente é uma prova de conceito, não uma solução operacional. Não utilizar dados pessoais reais.
 
-## Objetivo
-Documentar a estrutura institucional, Cultura Geral, autonomia local, diretrizes e processos com versões, decisões do Conselho de Liderança e classificação da informação.
+## O que é o Governo CCLX?
+Uma plataforma para documentar a estrutura da igreja, a Cultura Geral e as expressões locais, as diretrizes, os processos e as decisões institucionais, com versões, permissões e histórico. Enquadra-se na prioridade **P7 — Redefinir a Cultura CCLX**.
 
-**Fora do âmbito:** gestão de tarefas, projetos, produtividade e contabilização financeira.
+O Governo CCLX **não** é um gestor de tarefas, projetos ou contabilidade.
 
-## Decisões de arquitetura
-- **Firebase Authentication:** login sem palavra-passe por link de email; sem login Google OAuth.
-- **Acesso fechado:** envio de links apenas a utilizadores previamente registados e ativos, após validação pelo backend.
-- **Administração:** Master global e administradores locais limitados às respetivas comunidades; membro do CL é papel institucional distinto.
-- **Privacidade:** classificação automática Público/Interno/Restrito/Confidencial, com alteração controlada e auditada.
-- **Publicação:** portal público sem login, separado da área interna; só conteúdos explicitamente aprovados para publicação e transformados numa projeção segura.
-- **Governação:** CL aprova Cultura Geral e variantes locais, e decide exceções e conflitos.
+## Documento principal
+**[Ler a visão e os requisitos completos do Governo CCLX](docs/VISAO_E_REQUISITOS.md)**
 
-## Documentação
+O documento descreve:
+- Propósito, objetivos e âmbito.
+- Comunidades, órgãos e estrutura institucional.
+- Módulos funcionais previstos.
+- Papéis, autenticação e regras de autorização.
+- Cultura Geral, Cultura Local, propostas e decisões do CL.
+- Classificação da informação e portal público.
+- Requisitos técnicos, critérios de aceitação e decisões pendentes.
+
+## Referências complementares
 - [Autenticação e utilizadores](docs/AUTENTICACAO_FIREBASE.md)
 - [Privacidade, classificação e publicação](docs/PRIVACIDADE_PUBLICACAO.md)
-- [Plano de entregas](docs/PLANO_ENTREGAS.md)
-- [Estado da POC](docs/ESTADO_POC.md)
+- [Modelo de dados proposto](docs/MODELO_DADOS_MVP.md)
+- [Plano técnico](docs/PLANO_ENTREGAS.md)
+- [Estado da prova de conceito](docs/ESTADO_POC.md)
 
-## Desenvolvimento
-React, TypeScript e Vite. `npm ci`, `npm run typecheck`, `npm run build`, `npm test`. CI aprovada em execuções anteriores; confirmar novamente a última alteração antes de merge. Sem deploy automático, sem Firebase operacional e sem dados reais. Regras Firestore deny-all.
+## Estado
+**Fase de definição do produto.** Existe código experimental em desenvolvimento, mas não há login real, aplicação de produção ou publicação aprovada. O projeto Firebase de referência é `governo-cclx`, com preferência inicial pelo plano gratuito Spark. Nenhum deploy é automático ou autorizado por este documento.
